@@ -59,6 +59,11 @@ namespace UMeEngine
             {
                 component.Update();
             }
+            
+            foreach (GameComponent component in activeScene.GameComponents)
+            {
+                component.Update();
+            }
         }
         
         private static void GetAllScenes()
@@ -72,6 +77,12 @@ namespace UMeEngine
                 if (scene.IsBootScene)
                 {
                     activeScene = scene;
+                    activeScene.CreateGameComponents();
+                    
+                    foreach (GameComponent component in activeScene.GameComponents)
+                    {
+                        component.Start();
+                    }
                 }
             }
             
