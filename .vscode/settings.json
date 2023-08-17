@@ -1,3 +1,5 @@
 {
-    "dotnet.defaultSolution": "Pacman.sln"
+    "dotnet.defaultSolution": "Pacman.sln",
+    "csharp.debug.console": "externalTerminal",
+    "debug.internalConsoleOptions": "neverOpen"
 }

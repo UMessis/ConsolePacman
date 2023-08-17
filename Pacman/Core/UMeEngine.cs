@@ -1,37 +1,39 @@
 using System.Diagnostics;
+using System.IO.Compression;
 using System.Reflection;
 
 namespace UMeEngine
 {
-    sealed internal class UMeEngine
+    static internal class UMeEngine
     {
-        private List<GameComponent> gameComponents = new List<GameComponent>();
-        private Stopwatch stopwatch = new Stopwatch();
-        private float millisecondsPerTick;
-        private bool isPlaying;
+        private static List<GameComponent> staticGameComponents = new List<GameComponent>();
         
-        public bool IsPlaying => isPlaying;
+        // tick
+        private static Stopwatch stopwatch = new Stopwatch();
+        private static float millisecondsPerTick;
         
-        public UMeEngine(int ticksPerSecond)
+        // scenes
+        private static List<Scene2D> scenes = new List<Scene2D>();
+        private static Scene2D activeScene;
+        
+        private static bool isPlaying;
+        
+        public static bool IsPlaying => isPlaying;
+        
+        public static void Setup(int ticksPerSecond)
         {
             millisecondsPerTick = 1000 / ticksPerSecond;
         }
         
-        public void Start()
+        public static void Start()
         {
-            foreach (Type type in Assembly.GetExecutingAssembly().GetLoadableTypes().
-            Where(typeof(GameComponent).IsAssignableFrom).ToList())
-            {
-                GameComponent instance = (GameComponent)Activator.CreateInstance(type);
-                gameComponents.Add(instance);
-                instance.Start();
-            }
-            
+            GetAllScenes();
+            GetAllStaticGameComponents();
             stopwatch.Start();
             isPlaying = true;
         }
         
-        public void Update()
+        public static void Update()
         {
             if (stopwatch.ElapsedMilliseconds >= millisecondsPerTick)
             {
@@ -40,19 +42,53 @@ namespace UMeEngine
             }
         }
         
-        public void Quit()
+        public static void Quit()
         {
-            foreach (GameComponent component in gameComponents)
+            foreach (GameComponent component in staticGameComponents)
             {
                 component.OnDestroy();
             }
         }
         
-        private void Tick()
+        private static void Tick()
         {
-            foreach (GameComponent component in gameComponents)
+            foreach (GameComponent component in staticGameComponents)
             {
                 component.Update();
+            }
+        }
+        
+        private static void GetAllScenes()
+        {
+            foreach (Type type in Assembly.GetExecutingAssembly().GetLoadableTypes().
+            Where(typeof(Scene2D).IsAssignableFrom).ToList())
+            {
+                Scene2D scene = (Scene2D)Activator.CreateInstance(type);
+                scenes.Add(scene);
+                
+                if (scene.IsBootScene)
+                {
+                    activeScene = scene;
+                }
+            }
+            
+            if (activeScene is null)
+            {
+                Debug.WriteLine("There is no boot scene selected");
+            }           
+        }
+        
+        private static void GetAllStaticGameComponents()
+        {
+            foreach (Type type in Assembly.GetExecutingAssembly().GetLoadableTypes().
+            Where(typeof(GameComponent).IsAssignableFrom).ToList())
+            {
+                GameComponent instance = (GameComponent)Activator.CreateInstance(type);
+                
+                if (!instance.IsStatic) continue;
+                
+                staticGameComponents.Add(instance);
+                instance.Start();
             }
         }
     }

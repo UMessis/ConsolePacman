@@ -1,12 +1,11 @@
-﻿using Pacman;
+﻿using Engine = UMeEngine.UMeEngine;
 
-UMeEngine.UMeEngine engine = new UMeEngine.UMeEngine(30);
+Engine.Setup(30);
+Engine.Start();
 
-engine.Start();
-
-while(engine.IsPlaying)
+while(Engine.IsPlaying)
 {
-    engine.Update();
+    Engine.Update();
 }
 
-engine.Quit();
+Engine.Quit();

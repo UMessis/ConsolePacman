@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dhEzsMyy0e18hiv60XYT+oGVlSF9jvE8k3JkDi0/TnjoX4GaxjY3QYL8jkc1EaXz+z7xiMwoU36Zpbyb1OjX3A==",
+  "dgSpecHash": "19xJrt3c+qxBVJIehl8YwPqmvwJFcOLzPk+WSmxkpBst5QigtP7jlJf7e6A/JU/Agm+GoxoJ2WTKm32Kc9E1HA==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Nathaniel\\Projects\\ConsolePacman\\Pacman\\Pacman.csproj",
+  "projectFilePath": "c:\\Users\\rodri\\dev\\ConsolePacman\\Pacman\\Pacman.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

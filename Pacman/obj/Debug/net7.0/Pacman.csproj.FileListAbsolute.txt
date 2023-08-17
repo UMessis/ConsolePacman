@@ -12,3 +12,17 @@ c:\Users\Nathaniel\Projects\ConsolePacman\Pacman\obj\Debug\net7.0\refint\Pacman.
 c:\Users\Nathaniel\Projects\ConsolePacman\Pacman\obj\Debug\net7.0\Pacman.pdb
 c:\Users\Nathaniel\Projects\ConsolePacman\Pacman\obj\Debug\net7.0\Pacman.genruntimeconfig.cache
 c:\Users\Nathaniel\Projects\ConsolePacman\Pacman\obj\Debug\net7.0\ref\Pacman.dll
+c:\Users\rodri\dev\ConsolePacman\Pacman\bin\Debug\net7.0\Pacman.exe
+c:\Users\rodri\dev\ConsolePacman\Pacman\bin\Debug\net7.0\Pacman.deps.json
+c:\Users\rodri\dev\ConsolePacman\Pacman\bin\Debug\net7.0\Pacman.runtimeconfig.json
+c:\Users\rodri\dev\ConsolePacman\Pacman\bin\Debug\net7.0\Pacman.dll
+c:\Users\rodri\dev\ConsolePacman\Pacman\bin\Debug\net7.0\Pacman.pdb
+c:\Users\rodri\dev\ConsolePacman\Pacman\obj\Debug\net7.0\Pacman.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\rodri\dev\ConsolePacman\Pacman\obj\Debug\net7.0\Pacman.AssemblyInfoInputs.cache
+c:\Users\rodri\dev\ConsolePacman\Pacman\obj\Debug\net7.0\Pacman.AssemblyInfo.cs
+c:\Users\rodri\dev\ConsolePacman\Pacman\obj\Debug\net7.0\Pacman.csproj.CoreCompileInputs.cache
+c:\Users\rodri\dev\ConsolePacman\Pacman\obj\Debug\net7.0\Pacman.dll
+c:\Users\rodri\dev\ConsolePacman\Pacman\obj\Debug\net7.0\refint\Pacman.dll
+c:\Users\rodri\dev\ConsolePacman\Pacman\obj\Debug\net7.0\Pacman.pdb
+c:\Users\rodri\dev\ConsolePacman\Pacman\obj\Debug\net7.0\Pacman.genruntimeconfig.cache
+c:\Users\rodri\dev\ConsolePacman\Pacman\obj\Debug\net7.0\ref\Pacman.dll
