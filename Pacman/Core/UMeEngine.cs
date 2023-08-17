@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.IO.Compression;
 using System.Reflection;
 
 namespace UMeEngine
@@ -8,11 +7,9 @@ namespace UMeEngine
     {
         private static List<GameComponent> staticGameComponents = new List<GameComponent>();
         
-        // tick
         private static Stopwatch stopwatch = new Stopwatch();
-        private static float millisecondsPerTick;
+        private static float millisecondsPerTick = (float)1000 / Constants.TARGET_FPS;
         
-        // scenes
         private static List<Scene2D> scenes = new List<Scene2D>();
         private static Scene2D activeScene;
         
@@ -20,22 +17,20 @@ namespace UMeEngine
         
         public static bool IsPlaying => isPlaying;
         
-        public static void Setup(int ticksPerSecond)
-        {
-            millisecondsPerTick = 1000 / ticksPerSecond;
-        }
-        
         public static void Start()
         {
+            Setup();
+            
             GetAllScenes();
             GetAllStaticGameComponents();
+            
             stopwatch.Start();
             isPlaying = true;
         }
         
         public static void Update()
         {
-            if (stopwatch.ElapsedMilliseconds >= millisecondsPerTick)
+            if (stopwatch.Elapsed.TotalMilliseconds >= millisecondsPerTick)
             {
                 Tick();
                 stopwatch.Restart();
@@ -50,8 +45,16 @@ namespace UMeEngine
             }
         }
         
+        private static void Setup()
+        {
+            Console.SetWindowSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+            Console.SetBufferSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+        }
+        
         private static void Tick()
         {
+            Console.Title = $"{Constants.WINDOW_TITLE}, FPS: {Math.Ceiling(1000 / stopwatch.Elapsed.TotalMilliseconds)}";
+            
             foreach (GameComponent component in staticGameComponents)
             {
                 component.Update();
