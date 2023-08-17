@@ -1,6 +1,6 @@
 namespace UMeEngine
 {
-    public class Scene2D
+    public class Scene
     {
         private List<GameComponent> gameComponents = new List<GameComponent>();
         

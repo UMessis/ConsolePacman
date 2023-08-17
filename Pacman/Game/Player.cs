@@ -4,9 +4,9 @@ namespace Pacman
 {
     public class Player : GameComponent
     {
-        public override bool IsStatic { get { return false; } }
-        
         private int test = 0;
+        
+        private string visual = "#";
         
         public override void Update()
         {

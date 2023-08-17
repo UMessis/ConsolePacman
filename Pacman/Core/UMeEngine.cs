@@ -10,8 +10,8 @@ namespace UMeEngine
         private static Stopwatch stopwatch = new Stopwatch();
         private static float millisecondsPerTick = (float)1000 / Constants.TARGET_FPS;
         
-        private static List<Scene2D> scenes = new List<Scene2D>();
-        private static Scene2D activeScene;
+        private static List<Scene> scenes = new List<Scene>();
+        private static Scene activeScene;
         
         private static bool isPlaying;
         
@@ -69,9 +69,9 @@ namespace UMeEngine
         private static void GetAllScenes()
         {
             foreach (Type type in Assembly.GetExecutingAssembly().GetLoadableTypes().
-            Where(typeof(Scene2D).IsAssignableFrom).ToList())
+            Where(typeof(Scene).IsAssignableFrom).ToList())
             {
-                Scene2D scene = (Scene2D)Activator.CreateInstance(type);
+                Scene scene = (Scene)Activator.CreateInstance(type);
                 scenes.Add(scene);
                 
                 if (scene.IsBootScene)

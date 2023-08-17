@@ -2,7 +2,9 @@ namespace UMeEngine
 {
     public class GameComponent
     {
-        public virtual bool IsStatic { get; }
+        public (float x, float y) Position { get; set; }
+        
+        public virtual bool IsStatic { get { return false; } }
         
         public virtual void Start() {}
         public virtual void Update() {}

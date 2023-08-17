@@ -2,7 +2,7 @@ using UMeEngine;
 
 namespace Pacman
 {
-    public class Game : Scene2D
+    public class Game : Scene
     {
         public override bool IsBootScene { get { return true; } }
         
