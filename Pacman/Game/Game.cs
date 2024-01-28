@@ -18,7 +18,7 @@ namespace Pacman
                 new Ghost(),
                 new Ghost(),
                 new Ghost()
-            });            
+            });
         }
         
         public override void Initialize()

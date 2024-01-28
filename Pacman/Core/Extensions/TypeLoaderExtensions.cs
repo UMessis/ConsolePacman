@@ -6,7 +6,10 @@ namespace UMeEngine
     {
         public static IEnumerable<Type> GetLoadableTypes(this Assembly assembly)
         {
-            if (assembly == null) throw new ArgumentNullException("assembly");
+            if (assembly == null)
+            {
+                throw new ArgumentNullException("assembly");
+            }
             
             try
             {

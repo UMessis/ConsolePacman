@@ -2,14 +2,11 @@ namespace UMeEngine
 {
     public class Scene
     {
-        private List<GameComponent> gameComponents = new List<GameComponent>();
-        
-        public List<GameComponent> GameComponents => gameComponents;
-        
+        public List<GameComponent> GameComponents { get; } = new List<GameComponent>();
+        public Camera Camera { get; set; }
         public virtual bool IsBootScene { get; }
         
         public virtual void CreateGameComponents() { }
-        
         public virtual void Initialize() { }
     }
 }

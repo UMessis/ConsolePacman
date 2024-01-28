@@ -1,8 +1,8 @@
-using System.Diagnostics;
-using System.Reflection;
-
 namespace UMeEngine
 {
+    using System.Diagnostics;
+    using System.Reflection;
+
     static internal class UMeEngine
     {
         private static List<GameComponent> staticGameComponents = new List<GameComponent>();
@@ -13,10 +13,6 @@ namespace UMeEngine
         private static List<Scene> scenes = new List<Scene>();
         private static Scene activeScene;
         
-        private static bool isPlaying;
-        
-        public static bool IsPlaying => isPlaying;
-        
         public static void Start()
         {
             Setup();
@@ -25,24 +21,37 @@ namespace UMeEngine
             GetAllStaticGameComponents();
             
             stopwatch.Start();
-            isPlaying = true;
+            Update();
         }
         
-        public static void Update()
+        private static void Update()
         {
-            if (stopwatch.Elapsed.TotalMilliseconds >= millisecondsPerTick)
+            while (Application.IsRunning)
             {
-                Tick();
-                stopwatch.Restart();
+                if (stopwatch.Elapsed.TotalMilliseconds >= millisecondsPerTick)
+                {
+                    Time.DeltaTime = (float)stopwatch.Elapsed.TotalMilliseconds / 1000;
+                    Tick();
+                    stopwatch.Restart();
+                }
             }
+            
+            Quit();
         }
         
-        public static void Quit()
+        private static void Quit()
         {
-            foreach (GameComponent component in staticGameComponents)
+            foreach (var component in activeScene.GameComponents)
             {
                 component.OnDestroy();
             }
+            activeScene.GameComponents.Clear();
+
+            foreach (var component in staticGameComponents)
+            {
+                component.OnDestroy();
+            }
+            staticGameComponents.Clear();
         }
         
         private static void Setup()
@@ -50,17 +59,17 @@ namespace UMeEngine
             Console.SetWindowSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
             Console.SetBufferSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         }
-        
+
         private static void Tick()
         {
             Console.Title = $"{Constants.WINDOW_TITLE}, FPS: {Math.Ceiling(1000 / stopwatch.Elapsed.TotalMilliseconds)}";
             
-            foreach (GameComponent component in staticGameComponents)
+            foreach (var component in staticGameComponents)
             {
                 component.Update();
             }
             
-            foreach (GameComponent component in activeScene.GameComponents)
+            foreach (var component in activeScene.GameComponents)
             {
                 component.Update();
             }
@@ -68,38 +77,47 @@ namespace UMeEngine
         
         private static void GetAllScenes()
         {
-            foreach (Type type in Assembly.GetExecutingAssembly().GetLoadableTypes().
+            foreach (var type in Assembly.GetExecutingAssembly().GetLoadableTypes().
             Where(typeof(Scene).IsAssignableFrom).ToList())
             {
-                Scene scene = (Scene)Activator.CreateInstance(type);
+                var scene = (Scene)Activator.CreateInstance(type);
                 scenes.Add(scene);
                 
                 if (scene.IsBootScene)
                 {
                     activeScene = scene;
-                    activeScene.CreateGameComponents();
-                    
-                    foreach (GameComponent component in activeScene.GameComponents)
-                    {
-                        component.Start();
-                    }
                 }
             }
             
-            if (activeScene is null)
+            if (activeScene == null)
             {
                 Debug.WriteLine("There is no boot scene selected");
-            }           
+                return;
+            }
+
+            InitializeBootScene();
+        }
+        
+        private static void InitializeBootScene()
+        {
+            activeScene.CreateGameComponents();
+            foreach (var component in activeScene.GameComponents)
+            {
+                component.Start();
+            }
         }
         
         private static void GetAllStaticGameComponents()
         {
-            foreach (Type type in Assembly.GetExecutingAssembly().GetLoadableTypes().
+            foreach (var type in Assembly.GetExecutingAssembly().GetLoadableTypes().
             Where(typeof(GameComponent).IsAssignableFrom).ToList())
             {
-                GameComponent instance = (GameComponent)Activator.CreateInstance(type);
-                
-                if (!instance.IsStatic) continue;
+                var instance = (GameComponent)Activator.CreateInstance(type);
+
+                if (!instance.IsStatic)
+                {
+                    continue;
+                }
                 
                 staticGameComponents.Add(instance);
                 instance.Start();
